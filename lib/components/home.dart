@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:somaiyatrackercomponents/components/capture_component.dart';
+import 'package:somaiyatrackercomponents/components/navigate_component.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: CaptureComponent(),
+      child: NavigateComponent(),
     ));
   }
 }

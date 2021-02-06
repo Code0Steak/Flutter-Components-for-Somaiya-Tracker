@@ -63,5 +63,14 @@ List<Building> buildings = [
     eta: 0.5,
     branches: ['1-10 standard primary and high school edu.'],
     info: ['school chale ham!!'],
+  ),
+  Building(
+    imageUrl: 'assets/images/building_images/Maitrey.jpg',
+    name: 'SIMSR Girls hostel',
+    floors: 5,
+    seminarHalls: 1,
+    eta: 10,
+    branches: null,
+    info: ['girls hostel...'],
   )
 ];

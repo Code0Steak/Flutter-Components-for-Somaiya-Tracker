@@ -5,7 +5,7 @@ class Building {
   int seminarHalls;
   double eta;
   List<String> branches;
-  List<String> info;
+  String info;
 
   Building(
       {this.imageUrl,
@@ -25,7 +25,7 @@ List<Building> buildings = [
     seminarHalls: 3,
     eta: 5,
     branches: ['EXTC', 'Mechanical'],
-    info: ['KJSCE .............'],
+    info: 'KJSCE .............',
   ),
   Building(
     imageUrl: 'assets/images/building_images/Aurobindo.jpg',
@@ -34,7 +34,7 @@ List<Building> buildings = [
     seminarHalls: 1,
     eta: 3,
     branches: null,
-    info: ['Auro...', 'hehe'],
+    info: 'Auro...hehe',
   ),
   Building(
     imageUrl:
@@ -44,7 +44,7 @@ List<Building> buildings = [
     seminarHalls: 1,
     eta: 3,
     branches: ['Arts', 'Commerce'],
-    info: ['ksks......'],
+    info: 'ksks......',
   ),
   Building(
     imageUrl: 'assets/images/building_images/SIMSRboysHostel.png',
@@ -53,7 +53,7 @@ List<Building> buildings = [
     seminarHalls: 1,
     eta: 9,
     branches: null,
-    info: ['Boys hostel with the best amenities, not kidding.'],
+    info: 'Boys hostel with the best amenities, not kidding.',
   ),
   Building(
     imageUrl: 'assets/images/building_images/TheSomaiyaSchool',
@@ -62,7 +62,7 @@ List<Building> buildings = [
     seminarHalls: 2,
     eta: 0.5,
     branches: ['1-10 standard primary and high school edu.'],
-    info: ['school chale ham!!'],
+    info: 'school chale ham!!',
   ),
   Building(
     imageUrl: 'assets/images/building_images/Maitrey.jpg',
@@ -71,6 +71,6 @@ List<Building> buildings = [
     seminarHalls: 1,
     eta: 10,
     branches: null,
-    info: ['girls hostel...'],
+    info: 'girls hostel...',
   )
 ];

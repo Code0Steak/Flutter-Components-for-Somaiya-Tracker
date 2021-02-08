@@ -14,6 +14,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
   GlobalKey<AutoCompleteTextFieldState<Building>> key1 = new GlobalKey();
 
   var displayETA = false;
+  double ETA = 0.0;
 
   Widget row(Building building) {
     return Row(
@@ -60,10 +61,12 @@ class _NavigateComponentState extends State<NavigateComponent> {
         Container(
             child: Column(
           children: [
-            Image(
-              image:
-                  AssetImage('assets/images/component_images/map_3d_icon.png'),
-            ),
+            displayETA
+                ? SizedBox()
+                : Image(
+                    image: AssetImage(
+                        'assets/images/component_images/map_3d_icon.png'),
+                  ),
             Column(
               children: [
                 Padding(
@@ -158,6 +161,8 @@ class _NavigateComponentState extends State<NavigateComponent> {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   FlatButton(
                     onPressed: () {
+//ETA Logic
+
                       double t = 0.0;
                       double t1 = 0.0;
 
@@ -171,7 +176,16 @@ class _NavigateComponentState extends State<NavigateComponent> {
                           t1 = element.eta;
                         }
                       });
-                      print(t1 - t);
+                      if (t == 0.0 || t1 == 0.0) {
+                        setState(() {
+                          displayETA = false;
+                        });
+                        print('nope');
+                      } else
+                        setState(() {
+                          displayETA = true;
+                          ETA = t - t1;
+                        });
                     },
                     child: Text('Calculate Time'),
                     textColor: Colors.grey,
@@ -192,8 +206,29 @@ class _NavigateComponentState extends State<NavigateComponent> {
                         side: BorderSide(color: Colors.grey)),
                   ),
                 ]),
+                displayETA
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('ETA',
+                              style: TextStyle(
+                                color: Colors.teal[500],
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                              )),
+                          Column(
+                            children: [
+                              Text(searchTextField.textField.controller.text),
+                              Text('-'),
+                              Text(searchTextField1.textField.controller.text),
+                              Text('${ETA}'),
+                            ],
+                          )
+                        ],
+                      )
+                    : SizedBox(),
               ],
-            )
+            ),
           ],
         )),
       ],

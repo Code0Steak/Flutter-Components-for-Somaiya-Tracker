@@ -3,7 +3,7 @@ class Building {
   String name;
   int floors;
   int seminarHalls;
-  double eta;
+
   List<String> branches;
   String info;
 
@@ -12,7 +12,6 @@ class Building {
       this.name,
       this.floors,
       this.seminarHalls,
-      this.eta,
       this.branches,
       this.info});
 }
@@ -23,8 +22,15 @@ List<Building> buildings = [
     name: 'K.J. Somaiya College of Engineering - Aryabhatta building',
     floors: 5,
     seminarHalls: 3,
-    eta: 5,
     branches: ['EXTC', 'Mechanical'],
+    info: 'KJSCE .............',
+  ),
+  Building(
+    imageUrl: 'assets/images/building_images/KJSCE-A.png',
+    name: 'K.J. Somaiya College of Engineering - B building',
+    floors: 5,
+    seminarHalls: 3,
+    branches: ['IT', 'Computers', 'Electronics'],
     info: 'KJSCE .............',
   ),
   Building(
@@ -32,7 +38,6 @@ List<Building> buildings = [
     name: 'Aurobindo',
     floors: 7,
     seminarHalls: 1,
-    eta: 3,
     branches: null,
     info: 'Auro...hehe',
   ),
@@ -42,16 +47,22 @@ List<Building> buildings = [
     name: 'K.J. Somaiya College of Arts and Commerce',
     floors: 5,
     seminarHalls: 1,
-    eta: 3,
     branches: ['Arts', 'Commerce'],
     info: 'ksks......',
+  ),
+  Building(
+    imageUrl: 'assets/images/building_images/KJSCE-A.png',
+    name: 'K. J. Somaiya Polytechnic',
+    floors: 2,
+    seminarHalls: 1,
+    branches: [],
+    info: 'Poly .............',
   ),
   Building(
     imageUrl: 'assets/images/building_images/SIMSRboysHostel.png',
     name: 'SIMSR Boys Hostel',
     floors: 11,
     seminarHalls: 1,
-    eta: 9,
     branches: null,
     info: 'Boys hostel with the best amenities, not kidding.',
   ),
@@ -60,7 +71,6 @@ List<Building> buildings = [
     name: 'The Somaiya School',
     floors: 3,
     seminarHalls: 2,
-    eta: 0.5,
     branches: ['1-10 standard primary and high school edu.'],
     info: 'school chale ham!!',
   ),
@@ -69,7 +79,6 @@ List<Building> buildings = [
     name: 'SIMSR Girls hostel',
     floors: 5,
     seminarHalls: 1,
-    eta: 10,
     branches: null,
     info: 'girls hostel...',
   )

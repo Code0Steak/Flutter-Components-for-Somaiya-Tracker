@@ -12,6 +12,9 @@ class _NavigateComponentState extends State<NavigateComponent> {
 
   bool navigate = false;
 
+  bool displayETA = false;
+  double ETA = 0.0;
+
   void dijkstras(List<List<int>> g, int n, int s) {
     List<bool> visited = new List<bool>.filled(n, false);
 
@@ -56,7 +59,9 @@ class _NavigateComponentState extends State<NavigateComponent> {
     int d = 8; //one minus of the destination vertex number
 
     print(dist[d]);
-
+    setState(() {
+      ETA = dist[d];
+    });
     List<int> path = new List<int>.filled(n, -1);
 
     for (int at = d, i = 0; at != -1; at = prev[at]) {
@@ -94,9 +99,6 @@ class _NavigateComponentState extends State<NavigateComponent> {
   AutoCompleteTextField searchTextField1;
   GlobalKey<AutoCompleteTextFieldState<Building>> key = new GlobalKey();
   GlobalKey<AutoCompleteTextFieldState<Building>> key1 = new GlobalKey();
-
-  var displayETA = false;
-  double ETA = 0.0;
 
   Widget row(Building building) {
     return Row(
@@ -244,30 +246,49 @@ class _NavigateComponentState extends State<NavigateComponent> {
                   FlatButton(
                     onPressed: () {
 //ETA Logic
-
-                      double t = 0.0;
-                      double t1 = 0.0;
-
+                      bool chk1, chk2 = false;
+                      print(searchTextField1.textField.controller.text);
                       buildings.forEach((element) {
                         if (element.name ==
                             searchTextField.textField.controller.text) {
-                          t = element.eta;
+                          chk1 = true;
                         }
                         if (element.name ==
                             searchTextField1.textField.controller.text) {
-                          t1 = element.eta;
+                          chk2 = true;
                         }
                       });
-                      if (t == 0.0 || t1 == 0.0) {
+                      if (chk1 && chk2) {
+                        setState(() {
+                          displayETA = true;
+                          algo();
+                        });
+                      } else {
                         setState(() {
                           displayETA = false;
                         });
+                        print(chk1);
+                        print(chk2);
+                        final snackBar = SnackBar(
+                          content: Text(
+                              'Incorrect name of location! Please try again'),
+                          action: SnackBarAction(
+                            label: 'Try Filling Again',
+                            onPressed: () {
+                              setState(() {
+                                searchTextField1.textField.controller.text = '';
+                                searchTextField.textField.controller.text = '';
+                              });
+                            },
+                          ),
+                        );
+
+                        // Find the Scaffold in the widget tree and use
+                        // it to show a SnackBar.
+                        Scaffold.of(context).showSnackBar(snackBar);
+
                         print('nope');
-                      } else
-                        setState(() {
-                          displayETA = true;
-                          ETA = t - t1;
-                        });
+                      }
                     },
                     child: Text('Calculate Time'),
                     textColor: Colors.grey,

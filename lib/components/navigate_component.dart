@@ -8,6 +8,88 @@ class NavigateComponent extends StatefulWidget {
 }
 
 class _NavigateComponentState extends State<NavigateComponent> {
+  //Dijkstra's Algorithm
+
+  bool navigate = false;
+
+  void dijkstras(List<List<int>> g, int n, int s) {
+    List<bool> visited = new List<bool>.filled(n, false);
+
+    List<int> prev = new List<int>.filled(n, -1);
+
+    List<double> dist = new List<double>.filled(n, 1000);
+    dist[s] = 0;
+
+    for (int i = 1; i < n; i++) {
+      // Pick the minimum distance vertex
+      // from the set of vertices not yet
+      // processed. nearestVertex is
+      // always equal to startNode in
+      // first iteration.
+      int nearestVertex = -1;
+      double shortestDistance = 1000;
+      for (int vertexIndex = 0; vertexIndex < n; vertexIndex++) {
+        if (!visited[vertexIndex] && dist[vertexIndex] < shortestDistance) {
+          nearestVertex = vertexIndex;
+          shortestDistance = dist[vertexIndex];
+        }
+      }
+
+      // Mark the picked vertex as
+      // processed
+      visited[nearestVertex] = true;
+
+      // Update dist value of the
+      // adjacent vertices of the
+      // picked vertex.
+      for (int vertexIndex = 0; vertexIndex < n; vertexIndex++) {
+        int edgeDistance = g[nearestVertex][vertexIndex];
+
+        if (edgeDistance > 0 &&
+            ((shortestDistance + edgeDistance) < dist[vertexIndex])) {
+          prev[vertexIndex] = nearestVertex;
+          dist[vertexIndex] = shortestDistance + edgeDistance;
+        }
+      }
+    }
+    //DESTINATION INDEX
+    int d = 8; //one minus of the destination vertex number
+
+    print(dist[d]);
+
+    List<int> path = new List<int>.filled(n, -1);
+
+    for (int at = d, i = 0; at != -1; at = prev[at]) {
+      path[i] = at;
+      i = i + 1;
+    }
+
+    for (int i = n - 1; i >= 0; i--) {
+      if (path[i] != -1) print(path[i]);
+    }
+  }
+
+  void algo() {
+    print('path found');
+    List<List<int>> g = new List<List<int>>();
+
+    //GRAPH
+    g = [
+      [0, 4, 0, 0, 0, 0, 0, 8, 0],
+      [4, 0, 8, 0, 0, 0, 0, 11, 0],
+      [0, 8, 0, 7, 0, 4, 0, 0, 2],
+      [0, 0, 7, 0, 9, 14, 0, 0, 0],
+      [0, 0, 0, 9, 0, 10, 0, 0, 0],
+      [0, 0, 4, 0, 10, 0, 2, 0, 0],
+      [0, 0, 0, 14, 0, 2, 0, 1, 6],
+      [8, 11, 0, 0, 0, 0, 1, 0, 7],
+      [0, 0, 2, 0, 0, 0, 6, 7, 0]
+    ];
+
+    dijkstras(g, 9, 3);
+  }
+
+  // Autocomplete
   AutoCompleteTextField searchTextField;
   AutoCompleteTextField searchTextField1;
   GlobalKey<AutoCompleteTextFieldState<Building>> key = new GlobalKey();
@@ -197,7 +279,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
                     width: 10.0,
                   ),
                   RaisedButton(
-                    onPressed: null,
+                    onPressed: () => algo(),
                     child:
                         Text('Navigate', style: TextStyle(color: Colors.white)),
                     color: Colors.grey,

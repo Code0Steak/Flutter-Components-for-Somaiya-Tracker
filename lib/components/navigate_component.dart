@@ -245,49 +245,72 @@ class _NavigateComponentState extends State<NavigateComponent> {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   FlatButton(
                     onPressed: () {
-//ETA Logic
-                      bool chk1, chk2 = false;
-                      print(searchTextField1.textField.controller.text);
-                      buildings.forEach((element) {
-                        if (element.name ==
-                            searchTextField.textField.controller.text) {
-                          chk1 = true;
-                        }
-                        if (element.name ==
-                            searchTextField1.textField.controller.text) {
-                          chk2 = true;
-                        }
-                      });
-                      if (chk1 && chk2) {
-                        setState(() {
-                          displayETA = true;
-                          algo();
-                        });
-                      } else {
+                      //ETA Logic
+
+                      //both/any of the fields are blank
+                      if (searchTextField.textField.controller.text == '' ||
+                          searchTextField.textField.controller.text == '') {
                         setState(() {
                           displayETA = false;
+                          navigate = false;
+                          ETA = 0.0;
                         });
-                        print(chk1);
-                        print(chk2);
                         final snackBar = SnackBar(
-                          content: Text(
-                              'Incorrect name of location! Please try again'),
+                          content: Text('Please fill in all the fields.'),
                           action: SnackBarAction(
-                            label: 'Try Filling Again',
-                            onPressed: () {
-                              setState(() {
-                                searchTextField1.textField.controller.text = '';
-                                searchTextField.textField.controller.text = '';
-                              });
-                            },
+                            label: '',
+                            onPressed: () {},
                           ),
                         );
 
                         // Find the Scaffold in the widget tree and use
                         // it to show a SnackBar.
                         Scaffold.of(context).showSnackBar(snackBar);
+                      } else {
+                        bool chk, chk1 = false;
 
-                        print('nope');
+                        for (int i = 0; i < buildings.length; i++) {
+                          if (buildings[i].name ==
+                              searchTextField.textField.controller.text)
+                            chk = true;
+
+                          if (buildings[i].name ==
+                              searchTextField1.textField.controller.text)
+                            chk1 = true;
+                        }
+
+                        if (chk && chk1) {
+                          algo();
+                          setState(() {
+                            displayETA = true;
+                            navigate = false;
+                          });
+                        } else {
+                          setState(() {
+                            displayETA = false;
+                            navigate = false;
+                            ETA = 0.0;
+                          });
+
+                          final snackBar = SnackBar(
+                            content: Text('Incorrect name of location! '),
+                            action: SnackBarAction(
+                              label: 'Try Filling Again',
+                              onPressed: () {
+                                setState(() {
+                                  searchTextField1.textField.controller.text =
+                                      '';
+                                  searchTextField.textField.controller.text =
+                                      '';
+                                });
+                              },
+                            ),
+                          );
+
+                          // Find the Scaffold in the widget tree and use
+                          // it to show a SnackBar.
+                          Scaffold.of(context).showSnackBar(snackBar);
+                        }
                       }
                     },
                     child: Text('Calculate Time'),
@@ -300,7 +323,75 @@ class _NavigateComponentState extends State<NavigateComponent> {
                     width: 10.0,
                   ),
                   RaisedButton(
-                    onPressed: () => algo(),
+                    onPressed: () {
+                      //Navigation logic
+                      //both/any of the fields are blank
+                      if (searchTextField.textField.controller.text == '' ||
+                          searchTextField.textField.controller.text == '') {
+                        setState(() {
+                          displayETA = false;
+                          navigate = false;
+                          ETA = 0.0;
+                        });
+                        final snackBar = SnackBar(
+                          content: Text('Please fill in all the fields.'),
+                          action: SnackBarAction(
+                            label: '',
+                            onPressed: () {},
+                          ),
+                        );
+
+                        // Find the Scaffold in the widget tree and use
+                        // it to show a SnackBar.
+                        Scaffold.of(context).showSnackBar(snackBar);
+                      } else {
+                        bool chk, chk1 = false;
+
+                        buildings.forEach((element) {
+                          if (element.name ==
+                              searchTextField.textField.controller.text) {
+                            chk = true;
+                          }
+                          if (element.name ==
+                              searchTextField1.textField.controller.text) {
+                            chk1 = true;
+                          }
+                        });
+
+                        if (chk && chk1) {
+                          algo();
+                          setState(() {
+                            displayETA = true;
+                            navigate = true;
+                          });
+                        } else {
+                          setState(() {
+                            displayETA = false;
+                            navigate = false;
+                            ETA = 0.0;
+                          });
+
+                          final snackBar = SnackBar(
+                            content: Text('Incorrect name of location! '),
+                            action: SnackBarAction(
+                              label: 'Try Filling Again',
+                              onPressed: () {
+                                setState(() {
+                                  searchTextField1.textField.controller.text =
+                                      '';
+                                  searchTextField.textField.controller.text =
+                                      '';
+                                });
+                              },
+                            ),
+                          );
+
+                          // Find the Scaffold in the widget tree and use
+                          // it to show a SnackBar.
+                          Scaffold.of(context).showSnackBar(snackBar);
+                        }
+                      }
+                    },
                     child:
                         Text('Navigate', style: TextStyle(color: Colors.white)),
                     color: Colors.grey,
@@ -330,6 +421,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
                         ],
                       )
                     : SizedBox(),
+                navigate ? Text('Navigate') : SizedBox(),
               ],
             ),
           ],

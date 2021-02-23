@@ -154,7 +154,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
             Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
+                  padding: EdgeInsets.only(top: 20.0),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -198,7 +198,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
                       ]),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
+                  padding: EdgeInsets.only(top: 3.0, bottom: 10.0),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -401,24 +401,23 @@ class _NavigateComponentState extends State<NavigateComponent> {
                   ),
                 ]),
                 displayETA
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('ETA',
-                              style: TextStyle(
-                                color: Colors.teal[500],
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
-                              )),
-                          Column(
-                            children: [
-                              Text(searchTextField.textField.controller.text),
-                              Text('-'),
-                              Text(searchTextField1.textField.controller.text),
-                              Text('${ETA}'),
-                            ],
-                          )
-                        ],
+                    ? Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text('Estimated Time',
+                                style: TextStyle(
+                                  color: Colors.teal[500],
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                            Text('${ETA}',
+                                style: TextStyle(
+                                    fontSize: 35.0,
+                                    fontWeight: FontWeight.w500)),
+                            Text('min'),
+                          ],
+                        ),
                       )
                     : SizedBox(),
                 navigate ? Text('Navigate') : SizedBox(),

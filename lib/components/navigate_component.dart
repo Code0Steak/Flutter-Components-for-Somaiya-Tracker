@@ -8,6 +8,12 @@ class NavigateComponent extends StatefulWidget {
 }
 
 class _NavigateComponentState extends State<NavigateComponent> {
+// Autocomplete
+  AutoCompleteTextField searchTextField;
+  AutoCompleteTextField searchTextField1;
+  GlobalKey<AutoCompleteTextFieldState<Building>> key = new GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<Building>> key1 = new GlobalKey();
+
   //Dijkstra's Algorithm
 
   bool navigate = false;
@@ -15,7 +21,9 @@ class _NavigateComponentState extends State<NavigateComponent> {
   bool displayETA = false;
   double ETA = 0.0;
 
-  void dijkstras(List<List<int>> g, int n, int s) {
+  List<int> printPath;
+
+  void dijkstras(List<List<double>> g, int n, int s, int to) {
     List<bool> visited = new List<bool>.filled(n, false);
 
     List<int> prev = new List<int>.filled(n, -1);
@@ -46,7 +54,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
       // adjacent vertices of the
       // picked vertex.
       for (int vertexIndex = 0; vertexIndex < n; vertexIndex++) {
-        int edgeDistance = g[nearestVertex][vertexIndex];
+        double edgeDistance = g[nearestVertex][vertexIndex];
 
         if (edgeDistance > 0 &&
             ((shortestDistance + edgeDistance) < dist[vertexIndex])) {
@@ -56,7 +64,7 @@ class _NavigateComponentState extends State<NavigateComponent> {
       }
     }
     //DESTINATION INDEX
-    int d = 8; //one minus of the destination vertex number
+    int d = to; //one minus of the destination vertex number
 
     print(dist[d]);
     setState(() {
@@ -72,33 +80,48 @@ class _NavigateComponentState extends State<NavigateComponent> {
     for (int i = n - 1; i >= 0; i--) {
       if (path[i] != -1) print(path[i]);
     }
+
+    setState(() {
+      printPath = path.reversed.toList();
+    });
+    print(printPath);
   }
 
   void algo() {
     print('path found');
-    List<List<int>> g = new List<List<int>>();
+    List<List<double>> g = new List<List<double>>();
+
+    int from, to = 0;
+
+    for (int i = 0; i < buildings.length; i++) {
+      if (buildings[i].name == searchTextField.textField.controller.text) {
+        from = buildings[i].index;
+      } else if (buildings[i].name ==
+          searchTextField1.textField.controller.text) {
+        to = buildings[i].index;
+      } else
+        continue;
+    }
+
+    print('From: ');
+    print(from);
+    print('To: ');
+    print(to);
 
     //GRAPH
     g = [
-      [0, 4, 0, 0, 0, 0, 0, 8, 0],
-      [4, 0, 8, 0, 0, 0, 0, 11, 0],
-      [0, 8, 0, 7, 0, 4, 0, 0, 2],
-      [0, 0, 7, 0, 9, 14, 0, 0, 0],
-      [0, 0, 0, 9, 0, 10, 0, 0, 0],
-      [0, 0, 4, 0, 10, 0, 2, 0, 0],
-      [0, 0, 0, 14, 0, 2, 0, 1, 6],
-      [8, 11, 0, 0, 0, 0, 1, 0, 7],
-      [0, 0, 2, 0, 0, 0, 6, 7, 0]
+      [0.0, 0.5, 2.0, 1.5, 0.5, 0.0, 2.0, 0.0],
+      [0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0],
+      [2.0, 0.0, 0.0, 0.5, 0.0, 0.0, 1.5, 0.0],
+      [1.5, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0],
+      [0.5, 0.5, 0.0, 0.0, 0.0, 3.0, 0.0, 3.5],
+      [0.0, 0.0, 0.0, 0.0, 3.0, 0.0, 0.0, 0.5],
+      [2.0, 0.0, 1.5, 0.0, 0.0, 0.0, 0.0, 0.0],
+      [0.0, 0.0, 0.0, 0.0, 3.5, 0.5, 0.0, 0.0]
     ];
 
-    dijkstras(g, 9, 3);
+    dijkstras(g, 8, from, to);
   }
-
-  // Autocomplete
-  AutoCompleteTextField searchTextField;
-  AutoCompleteTextField searchTextField1;
-  GlobalKey<AutoCompleteTextFieldState<Building>> key = new GlobalKey();
-  GlobalKey<AutoCompleteTextFieldState<Building>> key1 = new GlobalKey();
 
   Widget row(Building building) {
     return Row(
@@ -420,7 +443,50 @@ class _NavigateComponentState extends State<NavigateComponent> {
                         ),
                       )
                     : SizedBox(),
-                navigate ? Text('Navigate') : SizedBox(),
+                navigate
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+                        child: Container(
+                          height: 300.0,
+                          width: 300.0,
+                          child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: buildings.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                if (printPath[i] < 0)
+                                  return SizedBox();
+                                else {
+                                  String buildingName = '';
+                                  for (int j = 0; j < buildings.length; j++) {
+                                    if (buildings[j].index == printPath[i]) {
+                                      buildingName = buildings[j].name;
+                                      break;
+                                    }
+                                  }
+                                  return Padding(
+                                    padding: EdgeInsets.only(top: 10.0),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.keyboard_arrow_down,
+                                              color: Colors.grey[i * 100 + 100],
+                                              size: 40.0),
+                                          Expanded(
+                                            child: Text('${buildingName}',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight:
+                                                        FontWeight.w300)),
+                                          ),
+                                        ]),
+                                  );
+                                }
+                              }),
+                        ),
+                      )
+                    : SizedBox(),
               ],
             ),
           ],

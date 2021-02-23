@@ -1,4 +1,6 @@
 class Building {
+  int index;
+
   String imageUrl;
   String name;
   int floors;
@@ -8,7 +10,8 @@ class Building {
   String info;
 
   Building(
-      {this.imageUrl,
+      {this.index,
+      this.imageUrl,
       this.name,
       this.floors,
       this.seminarHalls,
@@ -18,6 +21,7 @@ class Building {
 
 List<Building> buildings = [
   Building(
+    index: 0,
     imageUrl: 'assets/images/building_images/KJSCE-A.png',
     name: 'K.J. Somaiya College of Engineering - Aryabhatta building',
     floors: 5,
@@ -26,6 +30,7 @@ List<Building> buildings = [
     info: 'KJSCE .............',
   ),
   Building(
+    index: 1,
     imageUrl: 'assets/images/building_images/KJSCE-A.png',
     name: 'K.J. Somaiya College of Engineering - B building',
     floors: 5,
@@ -34,6 +39,7 @@ List<Building> buildings = [
     info: 'KJSCE .............',
   ),
   Building(
+    index: 2,
     imageUrl: 'assets/images/building_images/Aurobindo.jpg',
     name: 'Aurobindo',
     floors: 7,
@@ -42,6 +48,7 @@ List<Building> buildings = [
     info: 'Auro...hehe',
   ),
   Building(
+    index: 3,
     imageUrl:
         'assets/images/building_images/KJsomaiyaCollegeofArtsandCommerce.png',
     name: 'K.J. Somaiya College of Arts and Commerce',
@@ -51,6 +58,7 @@ List<Building> buildings = [
     info: 'ksks......',
   ),
   Building(
+    index: 4,
     imageUrl: 'assets/images/building_images/KJSCE-A.png',
     name: 'K. J. Somaiya Polytechnic',
     floors: 2,
@@ -59,6 +67,7 @@ List<Building> buildings = [
     info: 'Poly .............',
   ),
   Building(
+    index: 5,
     imageUrl: 'assets/images/building_images/SIMSRboysHostel.png',
     name: 'SIMSR Boys Hostel',
     floors: 11,
@@ -67,6 +76,7 @@ List<Building> buildings = [
     info: 'Boys hostel with the best amenities, not kidding.',
   ),
   Building(
+    index: 6,
     imageUrl: 'assets/images/building_images/TheSomaiyaSchool',
     name: 'The Somaiya School',
     floors: 3,
@@ -75,6 +85,7 @@ List<Building> buildings = [
     info: 'school chale ham!!',
   ),
   Building(
+    index: 7,
     imageUrl: 'assets/images/building_images/Maitrey.jpg',
     name: 'SIMSR Girls hostel',
     floors: 5,
